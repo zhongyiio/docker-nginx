@@ -1,0 +1,11 @@
+
+version: '2.1'
+services:
+  base-nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - IMAGE_ARG_IMAGE_TAG=${IMAGE_ARG_IMAGE_TAG:-1.15}
+    image: ${IMAGE_PREFIX:-cloudready}/${IMAGE_NAME:-nginx}:${IMAGE_TAG:-1.15-ADVANCE}
+    restart: always

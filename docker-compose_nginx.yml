@@ -1,0 +1,37 @@
+
+version: '2.1'
+services:
+  nginx:
+    extends:
+      file: docker-compose-base.yml
+      service: base-nginx
+    container_name: ${CONTAINER_HOST_NAME:-nginx}
+    hostname: ${CONTAINER_HOST_NAME:-nginx}
+    network_mode: bridge
+    ports:
+    - "${GUARDIAN_CMS_WEB_PORT:-8070}:8070"
+    - "${GUARDIAN_SAAS_WEB_PORT:-80}:80"
+    volumes:
+    - log:/var/log/nginx
+    - conf:/etc/nginx/conf.d 
+    - www:/usr/share/nginx
+
+volumes:
+  conf:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/data/conf.d
+      o: bind
+  log:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/data/log
+      o: bind
+  www:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/data/www
+      o: bind
